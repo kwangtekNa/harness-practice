@@ -1,0 +1,43 @@
+{
+  "phase": "mvp",
+  "commit_scope": "mvp",
+  "stop_on_block": true,
+  "_주석": "정산 모듈(settlement.py)을 단계로 나눠 빌드한다. status 는 pending/in_progress/completed/blocked. 실행 결과는 phase-mvp-output.json 에 기록된다(.gitignore).",
+  "steps": [
+    {
+      "id": "step-1",
+      "title": "정산 함수 시그니처와 기본 골격",
+      "prompt": "settlement.py 에 calc_settlement(amount: int, side: str, grade: str = 'online') -> int 함수의 시그니처와 docstring, 기본 골격을 만든다. 아직 수수료·세금 계산은 비워두고 amount 를 그대로 반환한다. 금액은 정수 원 단위로만 다룬다.",
+      "status": "pending",
+      "summary": ""
+    },
+    {
+      "id": "step-2",
+      "title": "수수료·세금 규칙 반영",
+      "prompt": "docs/SPEC.md 의 규칙에 따라 등급별 수수료, 매도 시 증권거래세, 최소 수수료, 원 단위 절사를 반영한다. 매수=거래금액+수수료, 매도=거래금액-수수료-세금. 금액 계산에 float 를 쓰지 않는다(Decimal 또는 정수).",
+      "status": "pending",
+      "summary": ""
+    },
+    {
+      "id": "step-3",
+      "title": "테스트 작성 및 전체 통과",
+      "prompt": "tests/test_settlement.py 를 만들어 매수/매도/등급/최소수수료/절사 경계를 모두 검증하고, 전체 테스트 스위트를 돌려 통과를 확인한다. 통과를 눈으로 확인하기 전에는 완료라고 하지 않는다.",
+      "status": "pending",
+      "summary": ""
+    },
+    {
+      "id": "step-4",
+      "title": "해외시장(FX) 확장 — 회귀 없이",
+      "prompt": "market='foreign' 일 때 환전수수료 0.1% 를 매수에 더하고 매도에서 빼며, 국내 증권거래세는 적용하지 않는다. 공용 함수를 건드리되 기존 국내 정산이 회귀하지 않도록 전체 테스트를 다시 돌려 확인한다.",
+      "status": "pending",
+      "summary": ""
+    },
+    {
+      "id": "step-5",
+      "title": "정산 리포트(report.html) 생성",
+      "prompt": "data/sample-trades.csv(UTF-8 BOM+CR 혼입, utf-8-sig 로 읽을 것)를 읽어 calc_settlement 로 행별 정산금액을 구하고, 총 거래금액·총 수수료·총 세금·고객 TOP 10 을 담은 자기완결형 단일 HTML(report.html)을 만든다. docs/UI_GUIDE.md 의 표현 규칙을 따르고 외부 CDN 을 쓰지 않는다.",
+      "status": "pending",
+      "summary": ""
+    }
+  ]
+}

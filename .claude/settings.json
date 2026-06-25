@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "_주석": "하네스 안전 훅. Stop=작업 마무리 검증, PreToolUse=파괴적 명령 차단. 스택은 Python/HTML 기준.",
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "ruff check . >/dev/null 2>&1 && python3 -m pytest -q >/dev/null 2>&1 || echo '검증 훅: ruff 또는 pytest 실패 — 완료 전에 확인하세요.'"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "grep -Eq 'rm[[:space:]]+-rf|git[[:space:]]+reset[[:space:]]+--hard|git[[:space:]]+push[[:space:]]+--force|push[[:space:]]+-f|DROP[[:space:]]+TABLE|TRUNCATE[[:space:]]+TABLE' && { echo '차단: 파괴적 명령은 하네스에서 금지됩니다.' >&2; exit 2; } || exit 0"
+          }
+        ]
+      }
+    ]
+  },
+  "_TODO_실습": "PreToolUse(Write|Edit) 훅을 하나 추가해 보세요 — 예: settlement.py 저장 후 자동 포맷(ruff format)을 거는 PostToolUse 훅. 아래 빈 배열을 채우면 됩니다.",
+  "PostToolUse_실습_빈칸": []
+}

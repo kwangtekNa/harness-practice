@@ -1,0 +1,21 @@
+# 하네스 실행 산출물
+phase*-output.json
+step*-output.json
+_workspace/
+_workspace_prev/
+
+# 강사 전용 (수강생 배포본에서 제외)
+_정답/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# OS
+.DS_Store
+
+# 임시 출력
+/tmp-out/
+*.bak_*
